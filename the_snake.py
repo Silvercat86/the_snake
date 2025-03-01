@@ -15,7 +15,7 @@ LEFT = (-1, 0)
 RIGHT = (1, 0)
 
 # Цвет фона - черный:
-BOARD_BACKGROUND_COLOR = (0, 0, 0)
+BOARD_BACKGROUND_COLOR = (0, 0, 1)
 
 # Цвет границы ячейки
 BORDER_COLOR = (93, 216, 228)
