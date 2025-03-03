@@ -1,4 +1,6 @@
+
 import pygame
+
 import random
 
 # Константы для размеров поля и сетки
@@ -44,7 +46,7 @@ class Apple(GameObject):
     def __init__(self):
         super().__init__(self.randomize_position(), APPLE_COLOR)
 
-    def randomize_position(self, impossible_positions=[]):
+    def randomize_position(self, impossible_positions=()):
         """Определение позиции яблока."""
         while True:
             new_position = (random.randint(0, GRID_WIDTH - 1) * GRID_SIZE,
