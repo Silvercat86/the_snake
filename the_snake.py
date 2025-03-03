@@ -44,10 +44,14 @@ class Apple(GameObject):
     def __init__(self):
         super().__init__(self.randomize_position(), APPLE_COLOR)
 
-    def randomize_position(self):
-        """Определяет случайное положение яблока."""
-        return (random.randint(0, GRID_WIDTH - 1) * GRID_SIZE,
-                random.randint(0, GRID_HEIGHT - 1) * GRID_SIZE)
+    def randomize_position(self, impossible_positions=[]):
+        """Определение позиции яблока."""
+        while True:
+            new_position = (random.randint(0, GRID_WIDTH - 1) * GRID_SIZE,
+                            random.randint(0, GRID_HEIGHT - 1) * GRID_SIZE)
+            if new_position not in impossible_positions:
+                self.position = new_position
+                break
 
     def draw(self, screen):
         """Отрисовывает яблоко."""
@@ -102,6 +106,10 @@ class Snake(GameObject):
         """Сбрасывает змейку в начальное состояние."""
         self.__init__()
 
+    def get_all_positions(self):
+        """Возвращает позицию всех частей змейки."""
+        return self.positions
+
 
 def handle_keys(snake):
     """Обрабатывает нажатия клавиш для управления змейкой."""
@@ -121,9 +129,11 @@ def handle_keys(snake):
 
 
 def main():
-    """Основная функция"""
+    """Основная функция."""
     snake = Snake()
     apple = Apple()
+
+    apple.randomize_position(snake.get_all_positions())
 
     while True:
         clock.tick(SPEED)
@@ -133,7 +143,7 @@ def main():
 
         if snake.get_head_position() == apple.position:
             snake.grow = True
-            apple.position = apple.randomize_position()
+            apple.randomize_position(snake.get_all_positions())
 
         screen.fill(BOARD_BACKGROUND_COLOR)
         apple.draw(screen)
